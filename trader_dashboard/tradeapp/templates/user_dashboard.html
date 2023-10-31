@@ -1,0 +1,101 @@
+<!-- dashboard/templates/user_dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Dashboard</h1>
+    <p>Welcome, {{ user.username }}</p>
+    <canvas id="profitLossChart" width="800" height="400"></canvas>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'logout' %}">Log Out</a>
+    {% else %}
+    <a href="{% url 'login' %}">Log In</a>
+    {% endif %}
+
+    <script>
+        var data = {{ data|default:"[]"|safe }};
+        var timestamps = data.map(item => item.timestamp);
+        var profitLoss = data.map(item => item.balance);
+
+        // Debugging: Output data to the console
+        console.log('Data:', data);
+        console.log('Timestamps:', timestamps);
+        console.log('Profit/Loss:', profitLoss);
+
+        var ctx = document.getElementById('profitLossChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: timestamps,
+                datasets: [{
+                    label: 'Profit/Loss',
+                    data: profitLoss,
+                    borderColor: 'blue',
+                    borderWidth: 1,
+                    pointBackgroundColor: 'blue',
+                }],
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: [{
+                        type: 'time',
+                        time: {
+                            displayFormats: {
+                                minute: 'HH:mm'
+                            },
+                            unit: 'minute'
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time',
+                        },
+                    }],
+                    y: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Profit/Loss',
+                        },
+                    }],
+                },
+            },
+        });
+    </script>
+</body>
+</html>

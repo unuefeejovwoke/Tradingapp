@@ -1,0 +1,4 @@
+Django
+djongo==1.3.6  # For MongoDB support
+
+pymongo==3.12.3

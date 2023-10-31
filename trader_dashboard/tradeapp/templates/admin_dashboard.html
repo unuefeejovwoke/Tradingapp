@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Trader ID</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in trader_data %}
+            <tr>
+                <td>{{ entry.timestamp }}</td>
+                <td>{{ entry.trader_id }}</td>
+                <td>{{ entry.balance }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
